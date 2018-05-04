@@ -1,0 +1,56 @@
+
+#Standard email output
+SELECT
+  event_info.timestamp_usec,
+  message_info.subject,
+  message_info.source.address,
+  message_info.source.from_header_address,
+  message_info.source.from_header_displayname,
+  message_info.flattened_destinations,
+  message_info.connection_info.client_ip,
+  message_info.connection_info.ip_geo_city,
+  message_info.connection_info.ip_geo_country,
+  message_info.is_spam,
+  message_info.spam_info.disposition
+FROM `<gmail dataset here>.daily_*`
+ORDER BY event_info.timestamp_usec desc
+LIMIT 1000
+
+
+#Find email by subject
+SELECT
+  event_info.timestamp_usec,
+  message_info.subject,
+  message_info.source.address,
+  message_info.source.from_header_address,
+  message_info.source.from_header_displayname,
+  message_info.flattened_destinations,
+  message_info.connection_info.client_ip,
+  message_info.connection_info.ip_geo_city,
+  message_info.connection_info.ip_geo_country,
+  message_info.is_spam,
+  message_info.spam_info.disposition
+FROM `<gmail dataset here>.daily_*`
+WHERE
+  message_info.subject LIKE '%<subject goes here>%' #Find by Subject
+ORDER BY event_info.timestamp_usec desc
+
+#Find email by from
+SELECT
+  event_info.timestamp_usec,
+  message_info.subject,
+  message_info.source.address,
+  message_info.source.from_header_address,
+  message_info.source.from_header_displayname,
+  message_info.flattened_destinations,
+  message_info.connection_info.client_ip,
+  message_info.connection_info.ip_geo_city,
+  message_info.connection_info.ip_geo_country,
+  message_info.is_spam,
+  message_info.spam_info.disposition
+FROM `<gmail dataset here>.daily_*`
+WHERE
+  message_info.source.address like '%<email address goes here>%' OR
+  message_info.source.from_header_address like '%<email address goes here>%' OR
+  message_info.source.from_header_displayname like '%<email address goes here>%'
+ORDER BY event_info.timestamp_usec desc
